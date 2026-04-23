@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ash Forge - Forge your AI. Your way. Modular AI ecosystem with specialized expert models.">
+    <meta name="keywords" content="AI, machine learning, LoRA, fine-tuning, specialized models, open source">
+    <meta name="author" content="Ash Forge">
+    
+    <title>Ash Forge - Forge Your AI. Your Way.</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-orange: #ff6b35;
+            --accent-blue: #00d4ff;
+            --accent-purple: #a855f7;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a1a);
+            overflow: hidden;
+        }
+        
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: drift 20s linear infinite;
+        }
+        
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+        
+        /* Header */
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--text-primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 8rem 5% 6rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+        
+        .hero .description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-orange), #ff8c5a);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--accent-orange);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-orange);
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        /* Stats Section */
+        .stats {
+            padding: 4rem 5%;
+            text-align: center;
+            background: var(--bg-card);
+            margin: 4rem 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stat-item h3 {
+            font-size: 3rem;
+            color: var(--accent-orange);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-item p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-orange);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="logo">🦞 Ash Forge</div>
+        <nav>
+            <a href="https://github.com/ash-forge">GitHub</a>
+            <a href="https://discord.gg/DCYC2fFQQ6">Discord</a>
+            <a href="https://github.com/ash-forge/forge-train">Get Started</a>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h1>Forge Your AI. Your Way.</h1>
+            <p class="tagline">Modular AI ecosystem with specialized expert models</p>
+            <p class="description">
+                Why use one bloated 31GB generalist when you can forge a personalized AI from specialized 3GB experts? 
+                Choose language-specific code models, creative models, gaming assistants—download only what you need. 
+                Start at 6GB. Build your perfect AI toolkit.
+            </p>
+            <div class="cta-buttons">
+                <a href="https://github.com/ash-forge/forge-train" class="btn btn-primary">Start Training</a>
+                <a href="https://github.com/ash-forge" class="btn btn-secondary">View Projects</a>
+            </div>
+        </section>
+        
+        <section class="features">
+            <h2>Why Ash Forge?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🎯 Specialized Models</h3>
+                    <p>Expert models for specific domains: Python, Rust, JavaScript, creative writing, gaming, and more. Each optimized for its task.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🔥 CPU Training</h3>
+                    <p>Train models on CPU with our optimized LoRA fine-tuning pipeline. No expensive GPUs required. One-command setup on Linux or Windows.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>⚡ Lightweight</h3>
+                    <p>3GB expert models beat 31GB generalists at their specialty. Start with 6GB minimum, add models as needed. Your hardware, your rules.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🔓 Fully Open</h3>
+                    <p>Apache 2.0 licensed. Fork it, modify it, train your own models. Community-driven model marketplace coming soon.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🚀 Production Ready</h3>
+                    <p>C++ inference engine (ash.cpp), Redis job queue, PostgreSQL tracking, systemd services. Built for real workloads.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🤝 Community Driven</h3>
+                    <p>Join our Discord to contribute models, datasets, and feedback. Build the AI ecosystem you want to see.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>50+</h3>
+                    <p>Planned Models</p>
+                </div>
+                <div class="stat-item">
+                    <h3>3GB</h3>
+                    <p>Per Model</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Open Source</p>
+                </div>
+                <div class="stat-item">
+                    <h3>0$</h3>
+                    <p>API Costs</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features">
+            <h2>Get Started</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>1. Install Infrastructure</h3>
+                    <p><code style="color: var(--accent-blue);">curl -sSL https://github.com/ash-forge/forge-train/raw/main/setup.sh | sudo bash</code></p>
+                    <p style="margin-top: 1rem;">One command installs everything on Ubuntu 26.04 LTS.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>2. Submit Training Job</h3>
+                    <p><code style="color: var(--accent-blue);">forge-train submit --model ash-code:python --dataset datasets/python-expert</code></p>
+                    <p style="margin-top: 1rem;">Queue your model for training (48-72 hours on CPU).</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>3. Use Your Model</h3>
+                    <p><code style="color: var(--accent-blue);">ollama run ashforge/ash-code:python</code></p>
+                    <p style="margin-top: 1rem;">Deploy locally or integrate into your applications.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="https://github.com/ash-forge">GitHub</a>
+            <a href="https://discord.gg/DCYC2fFQQ6">Discord</a>
+            <a href="https://github.com/ash-forge/forge-train">Documentation</a>
+            <a href="https://github.com/ash-forge/ash-cpp">Inference Engine</a>
+        </div>
+        <p>&copy; 2026 Ash Forge. Apache 2.0 Licensed. Built by lobsters, for humans. 🦞</p>
+    </footer>
+</body>
+</html>
